@@ -1,0 +1,83 @@
+name: Build & Deploy App to AKS
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'app/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_NAME: acrprodassignmnet3
+  IMAGE_NAME: pyapp
+  AKS_CLUSTER: aks-prod
+  AKS_RG: rg-aks-prod1
+
+jobs:
+  build-test-deploy:
+    #runs-on: ubuntu-latest
+    runs-on: [self-hosted, aks]
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Azure login via OIDC
+    - name: Azure Login (OIDC)
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Unit Tests
+    - name: Run Unit Tests
+      run: |
+        cd app
+        docker build --no-cache -t test-image .
+        docker run test-image pytest tests/ 
+
+    # Build Docker Image
+    - name: Build Docker Image
+      run: |
+        docker build -t $ACR_NAME.azurecr.io/pyapp:${{ github.sha }} app
+
+    # Trivy Image Scan
+    - name: Trivy Image Scan
+      uses: aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: $ACR_NAME.azurecr.io/pyapp:${{ github.sha }}
+        severity: CRITICAL
+        exit-code: '1'
+
+    # Login to ACR using OIDC
+    - name: ACR Login
+      run: az acr login --name $ACR_NAME
+
+    # Push Image to ACR
+    - name: Push Image
+      run: |
+        docker push $ACR_NAME.azurecr.io/pyapp:${{ github.sha }}
+
+    # Get AKS credentials
+    - name: Get AKS Credentials
+      run: |
+        az aks get-credentials \
+          --resource-group $AKS_RG \
+          --name $AKS_CLUSTER \
+          --overwrite-existing
+
+    # Deploy to AKS
+    - name: Deploy to AKS
+      run: |
+        sed -i "s|IMAGE_TAG|${{ github.sha }}|g" k8s/deployment.yaml 
+        kubectl apply -f k8s/ --validate=false
+
+    # Health Check
+    - name: Wait for Pods
+      run: |
+        kubectl rollout status deployment/sampleapp --timeout=120s
