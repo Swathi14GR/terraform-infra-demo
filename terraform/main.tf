@@ -67,7 +67,7 @@ module "acr_pe" {
   source             = "./modules/terraform-azure-acrpe"
   id                 = module.acr.id
   acr_name           = var.acr_name
-  rg                 = var.resource_group_name
+  rg                 = var.resource_group.name
   location           = var.location
   vnet_id            = module.network.vnet_id
   services_subnet_id = module.network.services_subnet_id
