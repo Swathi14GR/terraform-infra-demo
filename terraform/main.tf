@@ -66,7 +66,7 @@ module "acr" {
 }
 
 ###############################
-# ACR Module
+# ACRPE Module
 ###############################
 
 module "acr_pe" {
