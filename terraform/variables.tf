@@ -38,15 +38,6 @@ variable "vnet_name" {
   description = "vnet_name"
   type        = string
 }
-variable "location" {
-  description = "Azure region"
-  type        = string
-}
-
-variable "environment" {
-  description = "Deployment environment (dev, qa, prod)"
-  type        = string
-}
 
 variable "vm_size" {
   description = "VM size"

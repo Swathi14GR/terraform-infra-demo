@@ -3,7 +3,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.100.0.0/16"]
   location            = var.location
   resource_group_name = var.rg
-  tags                = local.tags
+  tags                = var.tags
 }
 
 resource "azurerm_subnet" "aks" {
@@ -11,6 +11,7 @@ resource "azurerm_subnet" "aks" {
   resource_group_name  = var.rg
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.100.1.0/24"]
+  tags                 = var.tags
 }
 
 resource "azurerm_subnet" "services" {
@@ -18,4 +19,5 @@ resource "azurerm_subnet" "services" {
   resource_group_name  = var.rg
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.100.2.0/24"]
+  tags                 = var.tags
 }
