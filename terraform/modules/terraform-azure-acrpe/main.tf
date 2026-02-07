@@ -18,6 +18,7 @@ resource "azurerm_private_endpoint" "acr_pe" {
 resource "azurerm_private_dns_zone" "acr_dns" {
   name                = "privatelink.azurecr.io"
   resource_group_name = var.rg
+  tags                = var.tags
 }
 
 # Link Private DNS Zone to VNet
@@ -27,6 +28,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "acr_dns_link" {
   private_dns_zone_name = azurerm_private_dns_zone.acr_dns.name
   virtual_network_id    = var.vnet_id
   registration_enabled  = false
+  tags                  = var.tags
 }
 
 # Create A record in Private DNS pointing to PE IP
