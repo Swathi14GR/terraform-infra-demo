@@ -7,6 +7,6 @@ key_vault_name      = "kv-prod-1234demo2"
 log_analytics_name  = "law-prod"
 
 common_tags = {
-  project = "aks-demo"
+  project    = "aks-demo"
   created_by = "terraform"
 }

@@ -39,7 +39,7 @@ module "aks" {
   location         = var.location
   rg               = module.resourcegroup.name
   cluster_name     = var.aks_cluster_name
-  tags     = local.tags
+  tags             = local.tags
 }
 
 ###############################
