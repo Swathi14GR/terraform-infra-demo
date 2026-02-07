@@ -5,3 +5,8 @@ aks_cluster_name    = "aks-prod"
 acr_name            = "acrprodassignmnet5"
 key_vault_name      = "kv-prod-1234demo1"
 log_analytics_name  = "law-prod"
+
+common_tags = {
+  project = "aks-demo"
+  created_by = "terraform"
+}

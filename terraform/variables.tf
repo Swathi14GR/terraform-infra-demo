@@ -38,4 +38,24 @@ variable "vnet_name" {
   description = "vnet_name"
   type        = string
 }
+variable "location" {
+  description = "Azure region"
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment (dev, qa, prod)"
+  type        = string
+}
+
+variable "vm_size" {
+  description = "VM size"
+  type        = string
+}
+
+variable "common_tags" {
+  description = "Tags applied to all resources"
+  type        = map(string)
+  default     = {}
+}
 
