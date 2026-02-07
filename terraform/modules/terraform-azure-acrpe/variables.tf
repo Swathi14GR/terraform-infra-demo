@@ -27,3 +27,7 @@ variable "services_subnet_id" {
   type        = string
   description = "Subnet ID where PE should be placed"
 }
+
+variable "tags" {
+  type = map(string)
+}

@@ -39,3 +39,14 @@ variable "vnet_name" {
   type        = string
 }
 
+variable "vm_size" {
+  description = "VM size"
+  type        = string
+}
+
+variable "common_tags" {
+  description = "Tags applied to all resources"
+  type        = map(string)
+  default     = {}
+}
+
