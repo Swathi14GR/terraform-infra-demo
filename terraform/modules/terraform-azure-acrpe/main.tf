@@ -4,6 +4,7 @@ resource "azurerm_private_endpoint" "acr_pe" {
   location            = var.location
   resource_group_name = var.rg
   subnet_id           = var.services_subnet_id
+  tags                = var.tags
 
   private_service_connection {
     name                           = "${var.acr_name}-psc"

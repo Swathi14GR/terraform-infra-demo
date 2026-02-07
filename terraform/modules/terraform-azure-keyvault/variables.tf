@@ -12,3 +12,7 @@ variable "rg" {
 variable "kubelet_identity_object_id" {
   type = string
 }
+
+variable "tags" {
+  type = map(string)
+}
