@@ -2,8 +2,8 @@ resource_group_name = "rg-aks-prod3"
 environment         = "prod"
 vnet_name           = "my-vnet"
 aks_cluster_name    = "aks-prod"
-acr_name            = "acrprodassignmnet5"
-key_vault_name      = "kv-prod-1234demo1"
+acr_name            = "acrprodassignmnet6"
+key_vault_name      = "kv-prod-1234demo2"
 log_analytics_name  = "law-prod"
 
 common_tags = {
