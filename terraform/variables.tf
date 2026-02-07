@@ -50,3 +50,8 @@ variable "common_tags" {
   default     = {}
 }
 
+variable "payment_gateway_api_key" {
+  description = "API key for payment gateway"
+  type        = string
+  sensitive   = true
+}
